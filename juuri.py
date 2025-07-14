@@ -1,5 +1,3 @@
-import re
-
 def alusta(sanalista: str) -> tuple:
     koo, nee, vii, kuu, see, kasi = [], [], [], [], [], []
     listan_nimi = {3: koo, 4: nee, 5: vii, 6: kuu, 7: see, 8:kasi}
