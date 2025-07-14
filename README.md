@@ -1,0 +1,2 @@
+# sanajuuri
+Hesarin sanajuuren ratkaisin
