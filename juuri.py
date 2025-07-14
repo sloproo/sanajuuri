@@ -27,33 +27,34 @@ def syotto(kolmoset: dict) -> tuple:
         break
     return (eka, muut)
 
+def loput(kaikki: list, tyosana: str) -> list:
+    riisuttava = kaikki.copy()
+    for k in tyosana:
+        riisuttava.remove(k)
+    return riisuttava
 
 koo, nee, vii, kuu, see, kasi, listan_nimi = alusta("sanat.txt")
 
 tyosana, muut = syotto(koo)
+kaikki = [k for k in tyosana + muut]
 
 while len(tyosana) < 8:
     tyolista = listan_nimi[len(tyosana)+1]
     kirjaimet = set(tyosana)
-    useampia = {}
     for k in kirjaimet:
-        if tyosana.count(k) > 1:
-            useampia[k] = tyosana.count(k)
-    for k in kirjaimet:
-        tyolista = [sana for sana in tyolista if k in sana]
-    if len(useampia) > 0:
-        for k in useampia:
-            tyolista = [sana for sana in tyolista if sana.count(k) >= useampia[k]]
+        tyolista = [sana for sana in tyolista if sana.count(k) >= tyosana.count(k)]
     
     mahdolliset = []
     for sana in tyolista:
         for k in muut:
             if sana.count(k) >= tyosana.count(k) + 1:
                 mahdolliset.append(sana)
+    mahdolliset = list(set(mahdolliset))
 
     if len(mahdolliset) == 1:
         print(f"\nVain yksi mahdollinen sana:\n\t{mahdolliset[0]}")
         tyosana = mahdolliset[0]
+        muut = loput(kaikki, tyosana)
     else:
         print(f"\nMahdollisia sanoja ovat:")
         for sana in mahdolliset:
@@ -63,6 +64,7 @@ while len(tyosana) < 8:
                 uusi_tyosana = input("\nKerro mikä sana kelpasi Sanajuurelle:\n\t")
                 if uusi_tyosana in mahdolliset:
                     tyosana = uusi_tyosana
+                    muut = loput(kaikki, tyosana)
                     break
                 print("\nNyt tuli sana mahdollisten listan ulkopuolelta. Typo?\n")
         else:
