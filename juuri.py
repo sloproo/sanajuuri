@@ -44,25 +44,35 @@ while len(tyosana) < 8:
     for k in kirjaimet:
         tyolista = [sana for sana in tyolista if sana.count(k) >= tyosana.count(k)]
     
-    mahdolliset = []
+    uudet_kirjaimittain = {k: [] for k in set(muut)}
     for sana in tyolista:
-        for k in muut:
+        for k in set(muut):
             if sana.count(k) >= tyosana.count(k) + 1:
-                mahdolliset.append(sana)
-    mahdolliset = list(set(mahdolliset))
+                uudet_kirjaimittain[k].append(sana)
 
-    if len(mahdolliset) == 1:
-        print(f"\nVain yksi mahdollinen sana:\n\t{mahdolliset[0]}")
+    for k in set(muut):
+        if k in uudet_kirjaimittain and len(uudet_kirjaimittain[k]) == 0:
+            uudet_kirjaimittain.pop(k)
+    
+    if len(uudet_kirjaimittain) == 1:
+        print(f"\n\n\nVain yksi kelvollinen uusi kirjain sanoineen:")
+        for k in uudet_kirjaimittain.keys():
+            mahdolliset = uudet_kirjaimittain[k]
+            print(f"{k}:\t{', '.join(mahdolliset)}")
         tyosana = mahdolliset[0]
         muut = loput(kaikki, tyosana)
     else:
-        print(f"\nMahdollisia sanoja ovat:")
-        for sana in mahdolliset:
-            print(f"\t{sana}")
+        kaikki_mahdolliset = []
+        print(f"\nMahdollisia uusia kirjaimia sanoineen ovat:")
+        for k in uudet_kirjaimittain.keys():
+            mahdolliset = uudet_kirjaimittain[k]
+            print(f"{k}:\t{', '.join(mahdolliset)}")
+            kaikki_mahdolliset += mahdolliset
+
         if len(tyosana) < 7:
             while True:
                 uusi_tyosana = input("\nKerro mikä sana kelpasi Sanajuurelle:\n\t")
-                if uusi_tyosana in mahdolliset:
+                if uusi_tyosana in kaikki_mahdolliset:
                     tyosana = uusi_tyosana
                     muut = loput(kaikki, tyosana)
                     break
