@@ -55,21 +55,22 @@ while len(tyosana) < 8:
             uudet_kirjaimittain.pop(k)
     
     if len(uudet_kirjaimittain) == 1:
-        print(f"\n\n\nVain yksi kelvollinen uusi kirjain sanoineen:")
+        print(f"\n\nVain yksi kelvollinen uusi kirjain sanoineen:")
         for k in uudet_kirjaimittain.keys():
             mahdolliset = uudet_kirjaimittain[k]
             print(f"{k}:\t{', '.join(mahdolliset)}")
         tyosana = mahdolliset[0]
         muut = loput(kaikki, tyosana)
+    
     else:
         kaikki_mahdolliset = []
-        print(f"\nMahdollisia uusia kirjaimia sanoineen ovat:")
+        print(f"\n\nMahdollisia uusia kirjaimia sanoineen ovat:")
         for k in uudet_kirjaimittain.keys():
             mahdolliset = uudet_kirjaimittain[k]
             print(f"{k}:\t{', '.join(mahdolliset)}")
             kaikki_mahdolliset += mahdolliset
 
-        if len(tyosana) < 7:
+        if len(tyosana) < 6:
             while True:
                 uusi_tyosana = input("\nKerro mikä sana kelpasi Sanajuurelle:\n\t")
                 if uusi_tyosana in kaikki_mahdolliset:
@@ -77,5 +78,11 @@ while len(tyosana) < 8:
                     muut = loput(kaikki, tyosana)
                     break
                 print("\nNyt tuli sana mahdollisten listan ulkopuolelta. Typo?\n")
+        
+        elif len(tyosana) == 6:
+            tyosana = kaikki_mahdolliset[0]
+            muut = loput(kaikki, tyosana)
+
         else:
             tyosana = "ratkaistu"
+            print("\n\n")
